@@ -1,7 +1,7 @@
 import { Quote } from "./Quote.js";
 export class Game {
   currentStep = 0;
-  lastStep = 8;
+  lastStep = 7;
   quotes = [
     {
       text: "pan tadeusz",
@@ -46,6 +46,9 @@ export class Game {
       document.getElementsByClassName("step")[
         this.currentStep
       ].style.opacity = 1;
+      if (this.currentStep == this.lastStep) {
+        this.loosing();
+      }
     }
   }
   drawLetters() {
@@ -63,11 +66,22 @@ export class Game {
   drawQuote() {
     const content = this.quote.getContent();
     this.wordWrapper.innerHTML = content;
+    if (!content.includes("_")) {
+      this.winning();
+    }
   }
 
   start() {
     document.getElementsByClassName("step")[this.currentStep].style.opacity = 1;
     this.drawLetters();
     this.drawQuote();
+  }
+  winning() {
+    this.wordWrapper.innerHTML = "Gratulacje! Wygrywasz! Koniec Gry!";
+    this.lettersWrapper.innerHTML = "";
+  }
+  loosing() {
+    this.wordWrapper.innerHTML = "Niestety Przgrywasz to koniec gry!";
+    this.lettersWrapper.innerHTML = "";
   }
 }
